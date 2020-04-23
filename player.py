@@ -26,6 +26,3 @@ class Player:
         p5.image_mode("CENTER")
         p5.image(CurrentSprite,(width/2,height/2),size=(CurrentSprite.size[0]*self.screenScale,CurrentSprite.size[1]*self.screenScale))
 
-
-    def moveUp():
-        pass

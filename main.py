@@ -25,8 +25,9 @@ def draw():
     p5.stroke(255)
     p5.no_fill()
     for x in range(len(Maps[0].grid)):
-        
+        x+=(width/2)/scl-Maps[0].gridpos.x-0.5
         for y in range(len(Maps[0].grid[0])):
+            y+=(height/2)/scl-Maps[0].gridpos.y-9/32
             p5.begin_shape()
             p5.vertex(x*scl,y*scl)
             p5.vertex(x*scl,(y+1)*scl)
@@ -34,8 +35,10 @@ def draw():
             p5.vertex((x+1)*scl,y*scl)
             p5.end_shape()
     player.show()
+    print(Maps[0].gridpos)
 
 def key_pressed():
+    global Maps
     if key=="UP":
         player.spriteNo=0
         Maps[0].moveUp()
@@ -48,6 +51,7 @@ def key_pressed():
     if key=="LEFT":
         player.spriteNo=3
         Maps[0].moveLeft()
-
+    if key=="ENTER":
+        Maps[0].gridpos=p5.Vector(2,2)
 
 p5.run()
