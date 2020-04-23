@@ -1,8 +1,8 @@
 import p5
 from player import *
 global scale
-scale=2
-player=Player(0,0,2,scale)
+scale=1
+player=Player(1,2,scale)
 
 
 def setup():
