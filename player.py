@@ -3,11 +3,11 @@ import p5
 class Player:
 
 
-    def __init__(self,gender,sprite,scale):
+    def __init__(self,gender,sprite,screenScale):
         
         self.gender=gender
         self.spriteNo=sprite
-        self.scale=scale
+        self.screenScale=screenScale/6
 
         self.Sprites=[]
         if self.gender==1:
@@ -24,7 +24,7 @@ class Player:
     def show(self):
         CurrentSprite=self.Sprites[self.spriteNo]
         p5.image_mode("CENTER")
-        p5.image(CurrentSprite,(width/2,height/2),size=(CurrentSprite.size[0]*self.scale,CurrentSprite.size[1]*self.scale))
+        p5.image(CurrentSprite,(width/2,height/2),size=(CurrentSprite.size[0]*self.screenScale,CurrentSprite.size[1]*self.screenScale))
 
 
     def moveUp():
