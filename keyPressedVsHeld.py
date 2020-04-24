@@ -38,7 +38,7 @@ def key_pressed():
     if key=="UP":
         pressedTime=frame_count
         if not player.spriteNo==5:
-            player.turnUp()
+            player.dir=p5.Vector()
     if key=="RIGHT":
         pressedTime=frame_count
         if not player.spriteNo==7:

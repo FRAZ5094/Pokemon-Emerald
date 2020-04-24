@@ -10,6 +10,11 @@ class Player:
         Upscaled=6
         self.screenScale=screenScale/Upscaled
         
+        self.walking=False
+        self.walkTimer=0
+        self.walkingAnimationTime=10
+        self.walkingProgress=0
+        self.stopRequest=False
 
 
         self.Sprites=[]
