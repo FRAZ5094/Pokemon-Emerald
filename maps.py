@@ -16,7 +16,6 @@ class Map:
         self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
         self.gridpos=p5.Vector(4,4)
         self.pos=p5.Vector(0,0)
-        self.moveDir=p5.Vector(0,0)
 
 
 
@@ -25,7 +24,3 @@ class Map:
         self.pos.y=height/2-self.gridpos.y*self.scl-self.scl*9/32
         p5.image_mode("CORNER")
         p5.image(self.sprite,(self.pos.x,self.pos.y),size=(self.sprite.size[0]*self.screenScale,self.sprite.size[1]*self.screenScale))
-
-
-    def move(self):
-        self.gridpos+=self.moveDir

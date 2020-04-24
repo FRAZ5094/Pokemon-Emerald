@@ -2,9 +2,8 @@ import p5
 from player import *
 from maps import *
 
-global screenScale,scl,showGrid,walkStart
-walkStart=0
-screenScale=4
+
+screenScale=6
 scl=16*screenScale
 showGrid=False
 player=Player(1,2,screenScale)
@@ -36,38 +35,27 @@ def draw():
                 p5.vertex((x+1)*scl,y*scl)
                 p5.end_shape()
 
-    if player.Walking:
-        player.Walkingcount+=1
-        Maps[0].move()
-        if player.Walkingcount>4:
-            player.Walking=False
-            player.Walkingcount=0
-
     player.show()
-    print(Maps[0].gridpos)
+    #print(Maps[0].gridpos)
 
 def key_pressed():
     global Maps,showGrid
-    if key=="UP" and not player.Walking:
+    if key=="UP":
         player.spriteNo=0
         if Maps[0].gridpos.y>0:
-            player.Walking=True
-            Maps[0].moveDir=p5.Vector(0,-0.2)
-    if key=="RIGHT" and not player.Walking:
+            Maps[0].gridpos.y-=1
+    if key=="RIGHT":
         player.spriteNo=1
         if Maps[0].gridpos.x<(len(Maps[0].grid[0])):
-            player.Walking=True
-            Maps[0].moveDir=p5.Vector(0.2,0)
-    if key=="DOWN" and not player.Walking:
+            Maps[0].gridpos.x+=1
+    if key=="DOWN":
         player.spriteNo=2
         if Maps[0].gridpos.y<len(Maps[0].grid):
-            player.Walking=True
-            Maps[0].moveDir=p5.Vector(0,0.2)
-    if key=="LEFT" and not player.Walking:
+            Maps[0].gridpos.y+=1
+    if key=="LEFT":
         player.spriteNo=3
         if Maps[0].gridpos.x>0:
-            player.Walking=True
-            Maps[0].moveDir=p5.Vector(-0.2,0)
+            Maps[0].gridpos.x-=1
     if key=="ENTER":
         Maps[0].gridpos=p5.Vector(2,2)
     if key=="#":
