@@ -9,12 +9,16 @@ def createMaps(scale,scl):
 class Map:
 
     def __init__(self,spriteLocation,screenScale,scl):
-        self.grid=np.zeros((9,8))
-        self.gridpos=p5.Vector(0,0)
-        self.pos=p5.Vector(0,0)
         self.sprite=p5.load_image(spriteLocation)
-        self.screenScale=screenScale/6
+        Upscaled=6
+        self.screenScale=screenScale/Upscaled
         self.scl=scl
+        self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
+        self.gridpos=p5.Vector(4,4)
+        self.pos=p5.Vector(0,0)
+        self.moveDir=p5.Vector(0,0)
+
+
 
     def show(self):
         self.pos.x=width/2-self.gridpos.x*self.scl-self.scl*1/2
@@ -22,11 +26,6 @@ class Map:
         p5.image_mode("CORNER")
         p5.image(self.sprite,(self.pos.x,self.pos.y),size=(self.sprite.size[0]*self.screenScale,self.sprite.size[1]*self.screenScale))
 
-    def moveUp(self):
-        self.gridpos.y-=1
-    def moveDown(self):
-        self.gridpos.y+=1
-    def moveLeft(self):
-        self.gridpos.x-=1
-    def moveRight(self):
-        self.gridpos.x+=1
+
+    def move(self):
+        self.gridpos+=self.moveDir
