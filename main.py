@@ -35,20 +35,20 @@ def draw():
                 p5.vertex((x+1)*scl,y*scl)
                 p5.end_shape()
 
-
     if key_is_pressed:
-        print("adcasd")
-        player.stopRequest=False
-    else:
+            print("key pressed")
+            player.stopRequest=False
+    else: 
         player.stopRequest=True
 
+    print(player.stopRequest)
     if player.walking:
         Maps[0].move(player)
         #player.WakingAnimation()
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
             print("Tried to stop")
             player.walking=False
-            player.stopRequest=False
+            #player.stopRequest=False
             player.walkTimer=0
 
     #print(player.walkTimer)
@@ -65,25 +65,25 @@ def key_pressed():
         Maps[0].dir=0
         player.walking=True
         player.stopRequest=False
-        return
+   
     if key=="RIGHT":
         #player.spriteNo=1
         Maps[0].dir=1
         player.walking=True
         player.stopRequest=False
-        return
+   
     if key=="DOWN":
         #player.spriteNo=2
         Maps[0].dir=2
         player.walking=True
         player.stopRequest=False
-        return
+
     if key=="LEFT":
         #player.spriteNo=3
         Maps[0].dir=3
         player.walking=True
         player.stopRequest=False
-        return
+
     if key=="ENTER":
         Maps[0].gridpos=p5.Vector(2,2)
     if key=="#":
@@ -94,8 +94,6 @@ def key_pressed():
 
     
 def key_released():
-        #player.stopRequest=True
-        pass
-
+    pass
 
 p5.run(frame_rate=60)

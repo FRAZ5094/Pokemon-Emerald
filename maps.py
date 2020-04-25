@@ -50,13 +50,17 @@ class Map:
 
 
     def canMoveUp(self):
-        return self.gridpos.y>0
+        #return self.gridpos.y>0
+        return True
 
     def canMoveRight(self):
-        return self.gridpos.x<len(self.grid[0])
+        #return self.gridpos.x<len(self.grid[0])
+        return True
 
     def canMoveDown(self):
-        return self.gridpos.y<len(self.grid)
+        #return self.gridpos.y<len(self.grid)
+        return True
 
     def canMoveLeft(self):
-        return self.gridpos.x>0
+        #return self.gridpos.x>0
+        return True
