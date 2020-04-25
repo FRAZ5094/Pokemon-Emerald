@@ -15,13 +15,17 @@ class Map:
         self.scl=scl
         #self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
         self.grid=np.zeros((7,8))
-        self.collisionGrid=self.grid
-        self.collisionGrid[0:2][:]=1
-        print(self.collisionGrid)
+        #do a list of banned spots instead
+        #self.collisionGrid=self.grid
+        #self.collisionGrid[0:2][:]=1
+        #self.collisionGrid[1,6]=0
+
         self.gridpos=p5.Vector(4,4)
         self.pos=p5.Vector(0,0)
-
         self.dir=p5.Vector(0,0)
+
+        self.walkThroughWalls=False
+
 
     def show(self):
         self.pos.x=width/2-self.gridpos.x*self.scl-self.scl*1/2
@@ -54,17 +58,29 @@ class Map:
 
 
     def canMoveUp(self):
-        #print(int(self.gridpos.x),int(self.gridpos.y-1))
-        return self.gridpos.y>0.1 and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
-
+        if not self.walkThroughWalls:
+            print(int(self.gridpos.y),int(self.gridpos.x))
+            return self.gridpos.y>0.1 and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
+        else:
+            return True
     def canMoveRight(self):
-        return self.gridpos.x+0.1<len(self.grid[0])
-
+        if not self.walkThroughWalls:
+            print(int(self.gridpos.y+1),int(self.gridpos.x+1))
+            return self.gridpos.x+0.1<len(self.grid[0]) and self.collisionGrid[int(self.gridpos.y+1),int(self.gridpos.x+1)]!=1
+        else:
+            return True
 
     def canMoveDown(self):
-        return self.gridpos.y+0.1<len(self.grid)
+        if not self.walkThroughWalls:
+            print(int(self.gridpos.y),int(self.gridpos.x))
+            return self.gridpos.y+0.1<len(self.grid) and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
+        else:
+            return True
   
 
     def canMoveLeft(self):
-        return self.gridpos.x>0.1
+        if not self.walkThroughWalls:
+            return self.gridpos.x>0.1
+        else:
+            return True
  

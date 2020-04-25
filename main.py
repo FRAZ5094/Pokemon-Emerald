@@ -10,11 +10,9 @@ player=Player(1,2,screenScale)
 
 def on_release(Key):
     global lastKey,player
-    print(str(Key))
-    if str(Key)==lastKey:
-        player.stopRequest=True
-        print("stop")
-
+    if str(Key)=="Key.up" or str(Key)=="Key.down" or str(Key)=="Key.right" or str(Key)== "Key.left":
+        if str(Key)==lastKey:
+            player.stopRequest=True
 
 
 
@@ -55,12 +53,10 @@ def draw():
         Maps[0].move(player)
         player.walkingAnimation(Maps[0])
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
-            print("Tried to stop")
             player.walking=False
             player.walkTimer=0
 
     player.show()
-    print(player.walkTimer)
 
 def key_pressed():
     global Maps,showGrid,lastKey
@@ -108,6 +104,12 @@ def key_pressed():
             showGrid=True
         else:
             showGrid=False
+    if key=="]":
+        if not Maps[0].walkThroughWalls:
+            Maps[0].walkThroughWalls=True
+            print("Walk through walls on")
+        else:
+            Maps[0].walkThroughWalls=False
+            print("Walk through walls off")
 
-
-p5.run(frame_rate=60)
+p5.run(frame_rate=50)
