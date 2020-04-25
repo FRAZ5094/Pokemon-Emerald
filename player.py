@@ -15,6 +15,7 @@ class Player:
         self.walkingAnimationTime=10
         self.walkingProgress=0
         self.stopRequest=False
+        self.Right=True
 
 
         self.Sprites=[]
@@ -61,3 +62,38 @@ class Player:
     def turnLeft(self):
         self.spriteNo=11
 
+    def walkingAnimation(self,Map):
+        if self.walkTimer%self.walkingAnimationTime==1:
+            if Map.dir==0:
+                if self.Right:
+                    self.spriteNo=4
+                    self.Right=False
+                else:
+                    self.spriteNo=5
+                    self.Right=True
+            elif Map.dir==1:
+                if self.Right:
+                    self.spriteNo=6
+                    self.Right=False
+                else:
+                    self.spriteNo=7
+                    self.Right=True
+            elif Map.dir==2:
+                if self.Right:
+                    self.spriteNo=8
+                    self.Right=False
+                else:
+                    self.spriteNo=9
+                    self.Right=True
+            elif Map.dir==3:
+                if self.Right:
+                    self.spriteNo=10
+                    self.Right=False
+                else:
+                    self.spriteNo=11
+                    self.Right=True
+
+
+
+        elif self.walkTimer%self.walkingAnimationTime==6:
+            self.spriteNo=Map.lockedDir

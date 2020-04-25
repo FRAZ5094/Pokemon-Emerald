@@ -14,6 +14,7 @@ class Map:
         self.screenScale=screenScale/Upscaled
         self.scl=scl
         self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
+        self.collisiongrid=[]
         self.gridpos=p5.Vector(4,4)
         self.pos=p5.Vector(0,0)
 
@@ -33,16 +34,16 @@ class Map:
             self.lockedDir=self.dir
             player.spriteNo=self.lockedDir
 
-        if self.canMoveUp and self.lockedDir==0:
+        if self.canMoveUp() and self.lockedDir==0:
             self.gridpos.y+=-1/player.walkingAnimationTime
 
-        elif self.canMoveRight and self.lockedDir==1:
+        elif self.canMoveRight() and self.lockedDir==1:
             self.gridpos.x+=1/player.walkingAnimationTime
 
-        elif self.canMoveDown and self.lockedDir==2:
+        elif self.canMoveDown() and self.lockedDir==2:
             self.gridpos.y+=1/player.walkingAnimationTime
 
-        elif self.canMoveLeft and self.lockedDir==3:
+        elif self.canMoveLeft() and self.lockedDir==3:
             self.gridpos.x+=-1/player.walkingAnimationTime
 
         player.walkTimer+=1
@@ -50,17 +51,16 @@ class Map:
 
 
     def canMoveUp(self):
-        #return self.gridpos.y>0
-        return True
+        return self.gridpos.y>0.1
 
     def canMoveRight(self):
-        #return self.gridpos.x<len(self.grid[0])
-        return True
+        return self.gridpos.x+0.1<len(self.grid[0])
+
 
     def canMoveDown(self):
-        #return self.gridpos.y<len(self.grid)
-        return True
+        return self.gridpos.y+0.1<len(self.grid)
+  
 
     def canMoveLeft(self):
-        #return self.gridpos.x>0
-        return True
+        return self.gridpos.x>0.1
+ 
