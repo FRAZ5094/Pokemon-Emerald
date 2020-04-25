@@ -13,8 +13,11 @@ class Map:
         Upscaled=6
         self.screenScale=screenScale/Upscaled
         self.scl=scl
-        self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
-        self.collisiongrid=[]
+        #self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
+        self.grid=np.zeros((7,8))
+        self.collisionGrid=self.grid
+        self.collisionGrid[0:2][:]=1
+        print(self.collisionGrid)
         self.gridpos=p5.Vector(4,4)
         self.pos=p5.Vector(0,0)
 
@@ -51,7 +54,8 @@ class Map:
 
 
     def canMoveUp(self):
-        return self.gridpos.y>0.1
+        #print(int(self.gridpos.x),int(self.gridpos.y-1))
+        return self.gridpos.y>0.1 and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
 
     def canMoveRight(self):
         return self.gridpos.x+0.1<len(self.grid[0])

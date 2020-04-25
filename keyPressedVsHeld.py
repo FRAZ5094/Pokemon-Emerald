@@ -56,7 +56,7 @@ def key_pressed():
 
 def key_released():
     global pressedTime
-    #print("key released")
+    print(key)
     pressedTime=0
 
 

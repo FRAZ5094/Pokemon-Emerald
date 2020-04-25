@@ -1,12 +1,28 @@
 import p5
+from pynput import keyboard
 from player import *
 from maps import *
-
 
 screenScale=5
 scl=16*screenScale
 showGrid=False
 player=Player(1,2,screenScale)
+
+def on_release(Key):
+    global lastKey,player
+    print(str(Key))
+    if str(Key)==lastKey:
+        player.stopRequest=True
+        print("stop")
+
+
+
+
+listener = keyboard.Listener(on_release=on_release)
+listener.start()
+
+
+
 
 
 
@@ -39,17 +55,18 @@ def draw():
         Maps[0].move(player)
         player.walkingAnimation(Maps[0])
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
-            #print("Tried to stop")
+            print("Tried to stop")
             player.walking=False
             player.walkTimer=0
 
     player.show()
-    print(Maps[0].gridpos)
+    print(player.walkTimer)
 
 def key_pressed():
-    global Maps,showGrid
+    global Maps,showGrid,lastKey
 
     if key=="UP":
+        lastKey="Key.up"
         if player.walking and Maps[0].dir==0:
             player.stopRequest=True
         else:
@@ -58,6 +75,7 @@ def key_pressed():
             player.stopRequest=False
    
     if key=="RIGHT":
+        lastKey="Key.right"
         if player.walking and Maps[0].dir==1:
             player.stopRequest=True
         else:
@@ -66,6 +84,7 @@ def key_pressed():
             player.stopRequest=False
    
     if key=="DOWN":
+        lastKey="Key.down"
         if player.walking and Maps[0].dir==2:
             player.stopRequest=True
         else:
@@ -74,6 +93,7 @@ def key_pressed():
             player.stopRequest=False
 
     if key=="LEFT":
+        lastKey="Key.left"
         if player.walking and Maps[0].dir==3:
             player.stopRequest=True
         else:
@@ -89,8 +109,5 @@ def key_pressed():
         else:
             showGrid=False
 
-    
-def key_released():
-    pass
 
-p5.run()
+p5.run(frame_rate=60)
