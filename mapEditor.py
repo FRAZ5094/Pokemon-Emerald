@@ -15,7 +15,7 @@ def draw():
     p5.background(0)
     
     p5.image_mode("CORNER")
-    p5.image(Map,(scl,scl),size=(Map.size[0]*screenScale/6,Map.size[1]*screenScale/6))
+    p5.image(Map,(0,0),size=(Map.size[0]*screenScale/6,Map.size[1]*screenScale/6))
 
     if not True:
         p5.stroke(255)

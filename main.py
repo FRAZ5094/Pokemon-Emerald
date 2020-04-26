@@ -1,4 +1,5 @@
 import p5
+import math
 from pynput import keyboard
 from player import *
 from maps import *
@@ -55,8 +56,13 @@ def draw():
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
             player.walking=False
             player.walkTimer=0
+            Maps[0].gridpos.x=round(Maps[0].gridpos.x,0)
+            Maps[0].gridpos.y=round(Maps[0].gridpos.y,0)
+    p5.fill(255,0,0,70)
 
+    p5.rect((4*scl+scl*((width/2)/scl-Maps[0].gridpos.x-0.5),4*scl+scl*((height/2)/scl-Maps[0].gridpos.y-9/32)),scl,scl)
     player.show()
+    print(Maps[0].gridpos.x,Maps[0].gridpos.y)
 
 def key_pressed():
     global Maps,showGrid,lastKey

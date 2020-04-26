@@ -1,5 +1,5 @@
 import p5
-
+import math
 def createMaps(scale,scl):
     Maps=[]
     Maps.append(Map(r"Images\Maps\LittleRootTown\TrainerHouseUpstairs.png",scale,scl))
@@ -13,16 +13,12 @@ class Map:
         Upscaled=6
         self.screenScale=screenScale/Upscaled
         self.scl=scl
-        #self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
-        #self.grid=np.zeros((7,8))
+
         self.gridWidth=8
         self.gridHeight=7
-        #do a list of banned spots instead
-        #self.collisionGrid=self.grid
-        #self.collisionGrid[0:2][:]=1
-        #self.collisionGrid[1,6]=0
+        self.bannedList=[(4,4)]
 
-        self.gridpos=p5.Vector(4,4)
+        self.gridpos=p5.Vector(4,5)
         self.pos=p5.Vector(0,0)
         self.dir=p5.Vector(0,0)
 
@@ -59,27 +55,29 @@ class Map:
 
 
 
+
     def canMoveUp(self):
         if not self.walkThroughWalls:
-            return self.gridpos.y>0.1
+            return self.gridpos.y>0.1 and ((int(self.gridpos.x),int(self.gridpos.y-0.01)) not in self.bannedList)
         else:
             return True
     def canMoveRight(self):
         if not self.walkThroughWalls:
-            return self.gridpos.x+0.1<self.gridWidth
+            return self.gridpos.x+0.1<self.gridWidth and ((int(self.gridpos.x+1),int(self.gridpos.y)) not in self.bannedList)
         else:
             return True
 
     def canMoveDown(self):
         if not self.walkThroughWalls:
-            return self.gridpos.y+0.1<self.gridHeight
+            return self.gridpos.y+0.1<self.gridHeight and ((int(self.gridpos.x),int(self.gridpos.y+1)) not in self.bannedList)
         else:
             return True
   
 
     def canMoveLeft(self):
         if not self.walkThroughWalls:
-            return self.gridpos.x>0.1
+            return self.gridpos.x>0.1 and ((int(self.gridpos.x-0.01),int(self.gridpos.y)) not in self.bannedList)
         else:
             return True
+ 
  
