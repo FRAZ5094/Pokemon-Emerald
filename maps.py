@@ -1,5 +1,5 @@
 import p5
-import numpy as np
+
 def createMaps(scale,scl):
     Maps=[]
     Maps.append(Map(r"Images\Maps\LittleRootTown\TrainerHouseUpstairs.png",scale,scl))
@@ -14,7 +14,9 @@ class Map:
         self.screenScale=screenScale/Upscaled
         self.scl=scl
         #self.grid=np.zeros((int(self.sprite.size[1]/(Upscaled*16))-1,int(self.sprite.size[0]/(Upscaled*16))-1))
-        self.grid=np.zeros((7,8))
+        #self.grid=np.zeros((7,8))
+        self.gridWidth=8
+        self.gridHeight=7
         #do a list of banned spots instead
         #self.collisionGrid=self.grid
         #self.collisionGrid[0:2][:]=1
@@ -59,21 +61,18 @@ class Map:
 
     def canMoveUp(self):
         if not self.walkThroughWalls:
-            print(int(self.gridpos.y),int(self.gridpos.x))
-            return self.gridpos.y>0.1 and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
+            return self.gridpos.y>0.1
         else:
             return True
     def canMoveRight(self):
         if not self.walkThroughWalls:
-            print(int(self.gridpos.y+1),int(self.gridpos.x+1))
-            return self.gridpos.x+0.1<len(self.grid[0]) and self.collisionGrid[int(self.gridpos.y+1),int(self.gridpos.x+1)]!=1
+            return self.gridpos.x+0.1<self.gridWidth
         else:
             return True
 
     def canMoveDown(self):
         if not self.walkThroughWalls:
-            print(int(self.gridpos.y),int(self.gridpos.x))
-            return self.gridpos.y+0.1<len(self.grid) and self.collisionGrid[int(self.gridpos.y),int(self.gridpos.x)]!=1
+            return self.gridpos.y+0.1<self.gridHeight
         else:
             return True
   

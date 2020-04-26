@@ -38,9 +38,9 @@ def draw():
     if showGrid:
         p5.stroke(255)
         p5.no_fill()
-        for x in range(len(Maps[0].grid[0])+1):
+        for x in range(Maps[0].gridWidth+1):
             x+=(width/2)/scl-Maps[0].gridpos.x-0.5
-            for y in range(len(Maps[0].grid)+1):
+            for y in range(Maps[0].gridHeight+1):
                 y+=(height/2)/scl-Maps[0].gridpos.y-9/32
                 p5.begin_shape()
                 p5.vertex(x*scl,y*scl)
