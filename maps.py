@@ -1,22 +1,24 @@
 import p5
 import math
+
+
 def createMaps(scale,scl):
     Maps=[]
-    Maps.append(Map(r"Images\Maps\LittleRootTown\TrainerHouseUpstairs.png",scale,scl))
+    Maps.append(Littleroot(scale,scl))
 
     return Maps
 
+
+
+
 class Map:
 
-    def __init__(self,spriteLocation,screenScale,scl):
-        self.sprite=p5.load_image(spriteLocation)
-        Upscaled=6
-        self.screenScale=screenScale/Upscaled
+    def __init__(self,screenScale,scl):
+        self.Upscaled=6
+        self.screenScale=screenScale/self.Upscaled
         self.scl=scl
 
-        self.gridWidth=8
-        self.gridHeight=7
-        self.bannedList=[(4,4)]
+        self.bannedList=[(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (6, 0), (8, 0), (8, 1), (7, 0), (6, 1), (5, 0), (4, 1), (5, 1), (3, 1), (2, 1), (1, 1), (0, 1)]
 
         self.gridpos=p5.Vector(4,5)
         self.pos=p5.Vector(0,0)
@@ -39,6 +41,7 @@ class Map:
             self.lockedDir=self.dir
             player.spriteNo=self.lockedDir
 
+
         if self.canMoveUp() and self.lockedDir==0:
             self.gridpos.y+=-1/player.walkingAnimationTime
 
@@ -50,6 +53,10 @@ class Map:
 
         elif self.canMoveLeft() and self.lockedDir==3:
             self.gridpos.x+=-1/player.walkingAnimationTime
+
+        if player.walkTimer%player.walkingAnimationTime==9:
+            self.gridpos.x=round(self.gridpos.x,0)
+            self.gridpos.y=round(self.gridpos.y,0)
 
         player.walkTimer+=1
 
@@ -81,3 +88,19 @@ class Map:
             return True
  
  
+class Littleroot(Map):
+
+    def __init__(self,screenScale,scl):
+        super().__init__(screenScale,scl)
+        self.sprite=p5.load_image(r"Images\Maps\LittleRootTown\TrainerHouseUpstairs.png",)
+        self.gridWidth=int(self.sprite.size[0]/(self.Upscaled*16)-1)
+        self.gridHeight=int(self.sprite.size[1]/(self.Upscaled*16)-1)
+
+        self.bannedList=[(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (6, 0), (8, 0), (8, 1), (7, 0), (6, 1), (5, 0), (4, 1), (5, 1), (3, 1), (2, 1), (1, 1), (0, 1)]
+        self.bannedfromDown=[]
+        self.bannedfromUp=[]
+        self.bannedfromRight=[]
+        self.bannedfromLeft=[]
+
+
+

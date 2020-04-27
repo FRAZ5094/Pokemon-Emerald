@@ -1,8 +1,12 @@
 import p5
 import math
+
 from pynput import keyboard
 from player import *
 from maps import *
+#from Audio import *
+
+
 
 screenScale=5
 scl=16*screenScale
@@ -26,9 +30,10 @@ listener.start()
 
 
 def setup():
-    global Maps
+    global Maps,Audio
     p5.size(screenScale*240,screenScale*160)
     Maps=createMaps(screenScale,scl)
+    #Audio=audioManager()
 
 
 def draw():
@@ -36,6 +41,8 @@ def draw():
     p5.background(0)
     Maps[0].show()
 
+    #Audio.playBackGroundMusic()
+    #print(Audio.LittleRootAudio.get_time())
     if showGrid:
         p5.stroke(255)
         p5.no_fill()
@@ -56,16 +63,14 @@ def draw():
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
             player.walking=False
             player.walkTimer=0
-            Maps[0].gridpos.x=round(Maps[0].gridpos.x,0)
-            Maps[0].gridpos.y=round(Maps[0].gridpos.y,0)
+
     p5.fill(255,0,0,70)
 
-    p5.rect((4*scl+scl*((width/2)/scl-Maps[0].gridpos.x-0.5),4*scl+scl*((height/2)/scl-Maps[0].gridpos.y-9/32)),scl,scl)
     player.show()
-    print(Maps[0].gridpos.x,Maps[0].gridpos.y)
+    #print(Maps[0].gridpos.x,Maps[0].gridpos.y)
 
 def key_pressed():
-    global Maps,showGrid,lastKey
+    global Maps,showGrid,lastKey,Audio
 
     if key=="UP":
         lastKey="Key.up"
@@ -118,4 +123,9 @@ def key_pressed():
             Maps[0].walkThroughWalls=False
             print("Walk through walls off")
 
+    if key==";":
+        Audio.playBackGroundMusic()
+
+    if key=="'":
+        Audio.LittleRootAudio.stop()
 p5.run(frame_rate=50)
