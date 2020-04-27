@@ -1,10 +1,9 @@
 import p5 
 import pyperclip
-
+from maps import *
 screenScale=1
 scl=16*screenScale
-Map=p5.load_image(r"Images\Maps\LittleRootTown\TrainerHouseUpstairs.png")
-bannedList=[]
+Map=LittlerootTrainerBot(screenScale,scl)
 
 def setup():
     p5.size(scl*20,scl*20)
@@ -15,7 +14,7 @@ def draw():
     p5.background(0)
     
     p5.image_mode("CORNER")
-    p5.image(Map,(0,0),size=(Map.size[0]*screenScale/6,Map.size[1]*screenScale/6))
+    p5.image(Map.sprite,(0,0),size=(Map.sprite.size[0]*screenScale/6,Map.sprite.size[1]*screenScale/6))
 
     if not True:
         p5.stroke(255)
@@ -31,12 +30,12 @@ def draw():
 
     p5.rect_mode("CENTER")
     p5.fill(255,0,0,90)
-    for x,y in bannedList:
+    for x,y in Map.bannedList:
         p5.rect((x*scl+0.5*scl,y*scl+0.5*scl),scl,scl)
 
 def key_pressed():
     if key=="ENTER":
-        pyperclip.copy(str(bannedList))
+        pyperclip.copy(str(Map.bannedList))
         spam = pyperclip.paste()
         print("bannedList added to clipboard")
 
@@ -44,10 +43,10 @@ def key_pressed():
 def mouse_pressed():
     gridx=int(mouse_x/scl)
     gridy=int(mouse_y/scl)
-    if not (gridx,gridy) in bannedList:
-        bannedList.append((gridx,gridy))
+    if not (gridx,gridy) in Map.bannedList:
+        Map.bannedList.append((gridx,gridy))
     else:
-        bannedList.remove((gridx,gridy))
+        Map.bannedList.remove((gridx,gridy))
 
 
 p5.run()

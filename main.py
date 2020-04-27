@@ -11,6 +11,7 @@ from maps import *
 screenScale=5
 scl=16*screenScale
 showGrid=False
+currentMap=1
 player=Player(1,2,screenScale)
 
 def on_release(Key):
@@ -39,93 +40,84 @@ def setup():
 def draw():
     global Maps,showGrid
     p5.background(0)
-    Maps[0].show()
+    Maps[currentMap].show()
 
-    #Audio.playBackGroundMusic()
-    #print(Audio.LittleRootAudio.get_time())
+    p5.stroke(255)
+    p5.stroke_weight(1)
     if showGrid:
-        p5.stroke(255)
-        p5.no_fill()
-        for x in range(Maps[0].gridWidth+1):
-            x+=(width/2)/scl-Maps[0].gridpos.x-0.5
-            for y in range(Maps[0].gridHeight+1):
-                y+=(height/2)/scl-Maps[0].gridpos.y-9/32
-                p5.begin_shape()
-                p5.vertex(x*scl,y*scl)
-                p5.vertex(x*scl,(y+1)*scl)
-                p5.vertex((x+1)*scl,(y+1)*scl)
-                p5.vertex((x+1)*scl,y*scl)
-                p5.end_shape()
+        for x in range(Maps[currentMap].gridWidth+2):
+            p5.line((Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(0)),(Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(Maps[currentMap].gridHeight+1)))
+        for y in range(Maps[currentMap].gridHeight+2):
+            p5.line((Maps[currentMap].GridtoPosX(0),Maps[currentMap].GridtoPosY(y)),(Maps[currentMap].GridtoPosX(Maps[currentMap].gridWidth+1),Maps[currentMap].GridtoPosY(y)))
 
     if player.walking:
-        Maps[0].move(player)
-        player.walkingAnimation(Maps[0])
+        Maps[currentMap].move(player)
+        player.walkingAnimation(Maps[currentMap])
         if player.walkTimer%player.walkingAnimationTime==0 and player.stopRequest:
             player.walking=False
             player.walkTimer=0
 
-    p5.fill(255,0,0,70)
-
     player.show()
-    #print(Maps[0].gridpos.x,Maps[0].gridpos.y)
+    print(Maps[currentMap].gridpos.x,Maps[currentMap].gridpos.y)
+
 
 def key_pressed():
-    global Maps,showGrid,lastKey,Audio
+    global Maps,showGrid,lastKey,Audio,currentMap
 
     if key=="UP":
         lastKey="Key.up"
-        if player.walking and Maps[0].dir==0:
+        if player.walking and Maps[currentMap].dir==0:
             player.stopRequest=True
         else:
-            Maps[0].dir=0
+            Maps[currentMap].dir=0
             player.walking=True
             player.stopRequest=False
    
     if key=="RIGHT":
         lastKey="Key.right"
-        if player.walking and Maps[0].dir==1:
+        if player.walking and Maps[currentMap].dir==1:
             player.stopRequest=True
         else:
-            Maps[0].dir=1
+            Maps[currentMap].dir=1
             player.walking=True
             player.stopRequest=False
    
     if key=="DOWN":
         lastKey="Key.down"
-        if player.walking and Maps[0].dir==2:
+        if player.walking and Maps[currentMap].dir==2:
             player.stopRequest=True
         else:
-            Maps[0].dir=2
+            Maps[currentMap].dir=2
             player.walking=True
             player.stopRequest=False
 
     if key=="LEFT":
         lastKey="Key.left"
-        if player.walking and Maps[0].dir==3:
+        if player.walking and Maps[currentMap].dir==3:
             player.stopRequest=True
         else:
-            Maps[0].dir=3
+            Maps[currentMap].dir=3
             player.walking=True
             player.stopRequest=False
 
     if key=="ENTER":
-        Maps[0].gridpos=p5.Vector(2,2)
+        #Maps[currentMap].gridpos=p5.Vector(2,2)
+        pass
     if key=="#":
         if not showGrid:
             showGrid=True
         else:
             showGrid=False
     if key=="]":
-        if not Maps[0].walkThroughWalls:
-            Maps[0].walkThroughWalls=True
+        if not Maps[currentMap].walkThroughWalls:
+            Maps[currentMap].walkThroughWalls=True
             print("Walk through walls on")
         else:
-            Maps[0].walkThroughWalls=False
+            Maps[currentMap].walkThroughWalls=False
             print("Walk through walls off")
+    if key=="1":
+        currentMap=0
+    if key=="2":
+        currentMap=1
 
-    if key==";":
-        Audio.playBackGroundMusic()
-
-    if key=="'":
-        Audio.LittleRootAudio.stop()
 p5.run(frame_rate=50)
