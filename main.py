@@ -7,11 +7,10 @@ from maps import *
 #from Audio import *
 
 
-
 screenScale=5
 scl=16*screenScale
 showGrid=False
-currentMap=1
+currentMap=0
 player=Player(1,2,screenScale)
 
 def on_release(Key):
@@ -40,15 +39,6 @@ def setup():
 def draw():
     global Maps,showGrid
     p5.background(0)
-    Maps[currentMap].show()
-
-    p5.stroke(255)
-    p5.stroke_weight(1)
-    if showGrid:
-        for x in range(Maps[currentMap].gridWidth+2):
-            p5.line((Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(0)),(Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(Maps[currentMap].gridHeight+1)))
-        for y in range(Maps[currentMap].gridHeight+2):
-            p5.line((Maps[currentMap].GridtoPosX(0),Maps[currentMap].GridtoPosY(y)),(Maps[currentMap].GridtoPosX(Maps[currentMap].gridWidth+1),Maps[currentMap].GridtoPosY(y)))
 
     if player.walking:
         Maps[currentMap].move(player)
@@ -57,8 +47,17 @@ def draw():
             player.walking=False
             player.walkTimer=0
 
+    Maps[currentMap].show()
     player.show()
-    print(Maps[currentMap].gridpos.x,Maps[currentMap].gridpos.y)
+    Maps[currentMap].drawExtras()
+
+    p5.stroke(255)
+    p5.stroke_weight(1)
+    if showGrid:
+        for x in range(Maps[currentMap].gridWidth+2):
+            p5.line((Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(0)),(Maps[currentMap].GridtoPosX(x),Maps[currentMap].GridtoPosY(Maps[currentMap].gridHeight+1)))
+        for y in range(Maps[currentMap].gridHeight+2):
+            p5.line((Maps[currentMap].GridtoPosX(0),Maps[currentMap].GridtoPosY(y)),(Maps[currentMap].GridtoPosX(Maps[currentMap].gridWidth+1),Maps[currentMap].GridtoPosY(y)))
 
 
 def key_pressed():
@@ -102,7 +101,7 @@ def key_pressed():
 
     if key=="ENTER":
         #Maps[currentMap].gridpos=p5.Vector(2,2)
-        pass
+        print(Maps[currentMap].gridpos.x,Maps[currentMap].gridpos.y)
     if key=="#":
         if not showGrid:
             showGrid=True
@@ -119,5 +118,7 @@ def key_pressed():
         currentMap=0
     if key=="2":
         currentMap=1
+    if key=="3":
+        currentMap=2
 
-p5.run(frame_rate=50)
+p5.run(frame_rate=45)
