@@ -1,17 +1,38 @@
 import p5
 import math
-
+import multiprocessing as mp
+import threading
 from pynput import keyboard
 from player import *
 from maps import *
-#from Audio import *
 
 
 screenScale=5
 scl=16*screenScale
+
+global Maps
+Maps=[]
+
 showGrid=False
 currentMap=0
 player=Player(1,2,screenScale)
+
+def runP5():
+    p5.run(frame_rate=45)
+
+
+def createMapObj(Class):
+
+    print("Loading map")
+    q.put(Class(screenScale,scl))
+    
+def updateMapList():
+
+    while True:
+        Maps.append(q.get())
+        print("loaded a map")
+
+
 
 def on_release(Key):
     global lastKey,player
@@ -19,25 +40,16 @@ def on_release(Key):
         if str(Key)==lastKey:
             player.stopRequest=True
 
-
-
 listener = keyboard.Listener(on_release=on_release)
 listener.start()
 
 
 
-
-
-
 def setup():
-    global Maps,Audio
+    global Maps
     p5.size(screenScale*240,screenScale*160)
-    Maps=createMaps(screenScale,scl)
-    #Audio=audioManager()
-
 
 def draw():
-    global Maps,showGrid
     p5.background(0)
 
     if player.walking:
@@ -60,8 +72,10 @@ def draw():
             p5.line((Maps[currentMap].GridtoPosX(0),Maps[currentMap].GridtoPosY(y)),(Maps[currentMap].GridtoPosX(Maps[currentMap].gridWidth+1),Maps[currentMap].GridtoPosY(y)))
 
 
+
+
 def key_pressed():
-    global Maps,showGrid,lastKey,Audio,currentMap
+    global showGrid,lastKey,currentMap
 
     if key=="UP":
         lastKey="Key.up"
@@ -71,7 +85,7 @@ def key_pressed():
             Maps[currentMap].dir=0
             player.walking=True
             player.stopRequest=False
-   
+
     if key=="RIGHT":
         lastKey="Key.right"
         if player.walking and Maps[currentMap].dir==1:
@@ -80,7 +94,7 @@ def key_pressed():
             Maps[currentMap].dir=1
             player.walking=True
             player.stopRequest=False
-   
+
     if key=="DOWN":
         lastKey="Key.down"
         if player.walking and Maps[currentMap].dir==2:
@@ -121,4 +135,3 @@ def key_pressed():
     if key=="3":
         currentMap=2
 
-p5.run(frame_rate=45)

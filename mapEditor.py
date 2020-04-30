@@ -3,10 +3,10 @@ import pyperclip
 from maps import *
 screenScale=1
 scl=16*screenScale
-Map=LittlerootTrainerTop(screenScale,scl)
+Map=LittlerootOutside(screenScale,scl)
 
 def setup():
-    p5.size(scl*20,scl*20)
+    p5.size(scl*40,scl*40)
     
 
 
