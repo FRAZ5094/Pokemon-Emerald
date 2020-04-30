@@ -2,21 +2,20 @@ import multiprocessing
 import threading
 from maps import *
 import time
-from main import runP5
-import globals
-
+from main import *
+import settings
 
 
 
 def createMapNot(Class,q):
-    q.put(Class(globals.screenScale,globals.scl))
+    q.put(Class(settings.screenScale,settings.scl))
     
 def updateMapList():
     while True:
-        globals.Maps.append(q.get())
+        settings.Maps.append(q.get())
 
 if __name__ == '__main__':
-    globals.Maps.append(LittlerootTrainerBot(globals.screenScale,globals.scl))
+    #settings.Maps.append(LittlerootTrainerTop(settings.screenScale,settings.scl))
     MapClasses=[LittlerootTrainerBot,LittlerootOutside]
     q=multiprocessing.Queue()
     for Class in MapClasses:
@@ -25,4 +24,4 @@ if __name__ == '__main__':
 
     t=threading.Thread(target=updateMapList)
     t.start()
-    runP5()
+    p5.run(frame_rate=45)
