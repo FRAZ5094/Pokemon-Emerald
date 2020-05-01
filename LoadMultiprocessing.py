@@ -2,8 +2,9 @@ import multiprocessing
 import threading
 from maps import *
 import time
-from main import *
 import settings
+from main import *
+
 
 
 
@@ -15,8 +16,9 @@ def updateMapList():
         settings.Maps.append(q.get())
 
 if __name__ == '__main__':
-    #settings.Maps.append(LittlerootTrainerTop(settings.screenScale,settings.scl))
+    settings.Maps.append(LittlerootTrainerTop(settings.screenScale,settings.scl))
     MapClasses=[LittlerootTrainerBot,LittlerootOutside]
+    #MapClasses=[LittlerootOutside,LittlerootTrainerBot]
     q=multiprocessing.Queue()
     for Class in MapClasses:
         p=multiprocessing.Process(target=createMapNot,args=(Class,q))

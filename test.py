@@ -1,6 +1,7 @@
-import settings
+bruh=[(1,2,"bruh"),(3,2,"ex")]
 
 
-settings.initialize()
+coordList=list(coord[:2]for coord in bruh)
 
-print(settings.screenScale)
+if (1,2) in coordList:
+    print("True")

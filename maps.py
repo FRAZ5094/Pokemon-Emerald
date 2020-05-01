@@ -1,19 +1,6 @@
 import p5
 import time
-
-"""
-def createMaps(scale,scl):
-    Maps=[]
-    start=time.perf_counter()
-    Maps.append(LittlerootTrainerTop(scale,scl))
-    Maps.append(LittlerootTrainerBot(scale,scl))
-    Maps.append(LittlerootOutside(scale,scl))
-    finish=time.perf_counter()
-    print("Loading Maps took {} seconds".format(round(finish-start,2)))
-    return Maps
-"""
-
-
+import settings
 
 class Map:
 
@@ -70,6 +57,7 @@ class Map:
         if player.walkTimer%player.walkingAnimationTime==9:
             self.gridpos.x=round(self.gridpos.x,0)
             self.gridpos.y=round(self.gridpos.y,0)
+            self.checkIfDoor()
 
         player.walkTimer+=1
 
@@ -104,6 +92,20 @@ class Map:
         if showExtra or self.ExtraShowFirst:
             p5.image(self.extraSprite,(self.GridtoPosX(0),self.GridtoPosY(0)),size=(self.extraSprite.size[0]*self.screenScale,self.extraSprite.size[1]*self.screenScale))
             self.ExtraShowFirst=False
+    @staticmethod
+    def changeMap(MapClass):
+
+        for i,Class in enumerate(settings.Maps):
+            if Class.__class__==MapClass:
+                settings.currentMap=i
+                return
+
+    def checkIfDoor(self):
+        if (int(self.gridpos.x),int(self.gridpos.y)) in self.DoorCoords:
+            index=self.DoorCoords.index((int(self.gridpos.x),int(self.gridpos.y)))
+            Map.changeMap(self.DoorDestination[index])
+
+
 
 
 class LittlerootTrainerTop(Map):
@@ -123,10 +125,14 @@ class LittlerootTrainerTop(Map):
         self.extraSprite=p5.load_image(r"Images\Maps\LittleRootTown\TrainerHouseUpstairsExtraSprites.png")
         self.extraActiveCoords=[(1,4)]
 
+        self.DoorCoords=[(7,1)]
+        self.DoorDestination=[LittlerootTrainerBot]
+
         super().__init__(screenScale,scl)
-    
+
     def __repr__(self):
         return "Littleroot Town Trainer House Top"
+
 
 class LittlerootTrainerBot(Map):
 
@@ -145,6 +151,12 @@ class LittlerootTrainerBot(Map):
 
         self.extraSprite=p5.load_image(r"Images\Maps\LittleRootTown\TrainerHouseDownStairsExtraSprites.png")
         self.extraActiveCoords=[(4,3)]
+
+        self.DoorCoords=[(8,2),(8,8),(9,8)]
+        self.DoorDestination=[LittlerootTrainerTop,LittlerootOutside,LittlerootOutside]
+
+
+
         super().__init__(screenScale,scl)
 
     def __repr__(self):
@@ -165,7 +177,17 @@ class LittlerootOutside(Map):
 
         self.extraSprite=p5.load_image(r"Images\Maps\LittleRootTown\TrainerHouseDownStairsExtraSprites.png")
         self.extraActiveCoords=[(1,4)]
+
+
+        self.DoorCoords=[(10,9)]
+        self.DoorDestination=[LittlerootTrainerBot]
         super().__init__(screenScale,scl)
+
+
+
+
+
+
 
     def __repr__(self):
         return "Littleroot Town"
