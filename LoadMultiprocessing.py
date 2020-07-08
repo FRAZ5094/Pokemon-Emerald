@@ -8,7 +8,7 @@ from main import *
 
 
 
-def createMapNot(Class,q):
+def createMap(Class,q):
     q.put(Class(settings.screenScale,settings.scl))
     
 def updateMapList():
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     #MapClasses=[LittlerootOutside,LittlerootTrainerBot]
     q=multiprocessing.Queue()
     for Class in MapClasses:
-        p=multiprocessing.Process(target=createMapNot,args=(Class,q))
+        p=multiprocessing.Process(target=createMap,args=(Class,q))
         p.start()
 
     t=threading.Thread(target=updateMapList)

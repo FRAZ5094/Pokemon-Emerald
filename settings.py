@@ -1,6 +1,3 @@
-
-from maps import *
-
 def initialize():
 
     global screenScale,scl,Maps,currentMap
